@@ -24,7 +24,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot():void
     {
         $this->configureRateLimiting();
 
@@ -35,6 +35,42 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+            Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/tono.php'));
+
+            Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/leo.php'));
+
+            Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/ron.php'));
+
+            Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/dario.php'));
+
+        });
+    }
+
+       /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+        Route::middleware('web')
+        ->group(function(){
+            require base_path('routes/web.php');
+            require base_path('routes/tono.php');
+            require base_path('routes/leo.php');
+            require base_path('routes/ron.php');
+            require base_path('routes/dario.php');
         });
     }
 

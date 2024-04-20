@@ -1,0 +1,1 @@
+<h1>pene</h1><?php /**PATH /home/maximiliano/Esc/sample/resources/views/toño/index.blade.php ENDPATH**/ ?>
