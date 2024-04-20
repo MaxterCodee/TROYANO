@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('directions', function (Blueprint $table) {
             $table->id();
             $table->time('time');
-            $table->time('date');
-            $table->time('quantity');
+            $table->date('date');
+            $table->bigInteger('quantity');
             $table->foreignId('type_id')->constrained('types')->onDelete('cascade');
             $table->timestamps();
         });
