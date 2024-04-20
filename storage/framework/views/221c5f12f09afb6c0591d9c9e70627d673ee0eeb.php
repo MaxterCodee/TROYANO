@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="keywords" content="">
 	<meta name="author" content="">
@@ -10,20 +10,21 @@
 	<meta name="description" content="Fillow : Fillow Saas Admin  Bootstrap 5 Template">
 	<meta property="og:title" content="Fillow : Fillow Saas Admin  Bootstrap 5 Template">
 	<meta property="og:description" content="Fillow : Fillow Saas Admin  Bootstrap 5 Template">
-	<meta property="og:image" content="https:/fillow.dexignlab.com/xhtml/social-image.png">
+	<meta property="og:image" content="<?php echo e(asset('images/social-image.png')); ?>">
 	<meta name="format-detection" content="telephone=no">
 	
 	<!-- PAGE TITLE HERE -->
 	<title>Admin Dashboard</title>
 	
 	<!-- FAVICONS ICON -->
-	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
-	<link href="vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
-	<link href="vendor/owl-carousel/owl.carousel.css" rel="stylesheet">
-	<link rel="stylesheet" href="vendor/nouislider/nouislider.min.css">
+	<link rel="shortcut icon" type="image/png" href="<?php echo e(asset('images/favicon.png')); ?>">
+	<link href="<?php echo e(asset('vendor/jquery-nice-select/css/nice-select.css')); ?>" rel="stylesheet">
+	<link href="<?php echo e(asset('vendor/owl-carousel/owl.carousel.css')); ?>" rel="stylesheet">
+	<link rel="stylesheet" href="<?php echo e(asset('vendor/nouislider/nouislider.min.css')); ?>">
 	
 	<!-- Style css -->
-    <link href="css/style.css" rel="stylesheet">
+	<link href="<?php echo e(asset('css/style.css')); ?>" rel="stylesheet">
+	
 	
 </head>
 <body>
@@ -345,27 +346,27 @@
     <!--**********************************
         Scripts
     ***********************************-->
-    <!-- Required vendors -->
-    <script src="vendor/global/global.min.js"></script>
-	<script src="vendor/chart.js/Chart.bundle.min.js"></script>
-	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-	
-	<!-- Apex Chart -->
-	<script src="vendor/apexchart/apexchart.js"></script>
-	
-	<script src="vendor/chart.js/Chart.bundle.min.js"></script>
-	
-	<!-- Chart piety plugin files -->
-    <script src="vendor/peity/jquery.peity.min.js"></script>
-	<!-- Dashboard 1 -->
-	<script src="js/dashboard/dashboard-1.js"></script>
-	
-	<script src="vendor/owl-carousel/owl.carousel.js"></script>
-	
-    <script src="js/custom.min.js"></script>
-	<script src="js/dlabnav-init.js"></script>
-	<script src="js/demo.js"></script>
-    <script src="js/styleSwitcher.js"></script>
+   <!-- Required vendors -->
+<script src="<?php echo e(asset('vendor/global/global.min.js')); ?>"></script>
+<script src="<?php echo e(asset('vendor/chart.js/Chart.bundle.min.js')); ?>"></script>
+<script src="<?php echo e(asset('vendor/jquery-nice-select/js/jquery.nice-select.min.js')); ?>"></script>
+
+<!-- Apex Chart -->
+<script src="<?php echo e(asset('vendor/apexchart/apexchart.js')); ?>"></script>
+
+<!-- Chart piety plugin files -->
+<script src="<?php echo e(asset('vendor/peity/jquery.peity.min.js')); ?>"></script>
+
+<!-- Dashboard 1 -->
+<script src="<?php echo e(asset('js/dashboard/dashboard-1.js')); ?>"></script>
+
+<script src="<?php echo e(asset('vendor/owl-carousel/owl.carousel.js')); ?>"></script>
+
+<script src="<?php echo e(asset('js/custom.min.js')); ?>"></script>
+<script src="<?php echo e(asset('js/dlabnav-init.js')); ?>"></script>
+<script src="<?php echo e(asset('js/demo.js')); ?>"></script>
+<script src="<?php echo e(asset('js/styleSwitcher.js')); ?>"></script>
+
 	<script>
 		function cardsCenter()
 		{
