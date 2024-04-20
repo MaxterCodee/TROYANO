@@ -378,7 +378,7 @@
 				loop:true,
 				margin:0,
 				nav:true,
-				//center:true,
+				center:true,
 				slideSpeed: 3000,
 				paginationSpeed: 3000,
 				dots: true,
