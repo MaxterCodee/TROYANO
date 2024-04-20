@@ -40,7 +40,7 @@
                         <span class="donut1" data-peity='{ "fill": ["rgba(136,108,192,1)", "rgba(241, 234, 255, 1)"],   "innerRadius": 20, "radius": 15}'>5/8</span>
                     </div>
                     <div class="ms-3">
-                        <h4 class="fs-24 font-w700 ">246</h4>
+                        <h4 class="fs-24 font-w700 ">{{$total_detection}}</h4>
                         <span class="fs-16 font-w400 d-block">Total Projects</span>
                     </div>
                 </div>
@@ -52,8 +52,8 @@
                             </svg>
                         </div>
                         <div class="ms-3">
-                            <h4 class="fs-24 font-w700 ">246</h4>
-                            <span class="fs-16 font-w400 d-block">On Going</span>
+                            <h4 class="fs-24 font-w700 ">{{$total_cars }}</h4>
+                            <span class="fs-16 font-w400 d-block">Carros</span>
                         </div>
                     </div>
                     <div class="d-flex">
@@ -64,22 +64,32 @@
 
                         </div>
                         <div class="ms-3">
-                            <h4 class="fs-24 font-w700 ">28</h4>
-                            <span class="fs-16 font-w400 d-block">Unfinished</span>
+                            <h4 class="fs-24 font-w700 ">{{$total_motos}}</h4>
+                            <span class="fs-16 font-w400 d-block">Motocicletas</span>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="mt-2">
+                            <svg width="13" height="13" viewbox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="6.5" cy="6.5" r="6.5" fill="#FFA7D7"></circle>
+                            </svg>
+
+                        </div>
+                        <div class="ms-3">
+                            <h4 class="fs-24 font-w700 ">{{$total_bus}}</h4>
+                            <span class="fs-16 font-w400 d-block">Autobuses</span>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="tab-pane fade active show" id="monthly">
+                
+            </div>
             <div class="tab-content">
                 <div class="tab-pane fade active show" id="monthly">
-                    <div id="chartBar" class="chartBar"></div>
-                </div>	
-                <div class="tab-pane fade" id="Weekly">
-                    <div id="chartBar1" class="chartBar"></div>
+                    <canvas id="barChart"></canvas>
                 </div>
-                <div class="tab-pane fade" id="Today">
-                    <div id="chartBar2" class="chartBar"></div>
-                </div>
+                
             </div>
             <div class="d-flex align-items-center">
                 <label class="form-check-label font-w400 fs-16 mb-0" for="flexSwitchCheckChecked1">Number</label>
@@ -96,3 +106,48 @@
     </div>
 </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('barChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Carros', 'Motocicletas', 'Autobuses'],
+                datasets: [{
+                    label: 'Cantidad',
+                    data: [{{$total_cars}}, {{$total_motos}}, {{$total_bus}}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 10,
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cantidad'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tipos'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

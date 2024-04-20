@@ -4,6 +4,7 @@ use App\Http\Controllers\IndexController;
 use Auth0\Laravel\Facade\Auth0;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\YolovController;
+use App\Http\Controllers\DarioController;
 
 Route::get('/private', function () {
   return response('Welcome! You are logged in.');
@@ -49,5 +50,5 @@ Route::get('/colors', function () {
 })->middleware('auth');
 
 Route::get('/auth0/callback', [IndexController::class, 'index'])->name('index');
-Route::get('/dashboard', [IndexController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard', [DarioController::class, 'index2'])->name('dashboard');
 Route::get('/yolov', [YolovController::class, 'yolov'])->name('yolov');
