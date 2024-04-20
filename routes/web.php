@@ -49,4 +49,5 @@ Route::get('/colors', function () {
 })->middleware('auth');
 
 Route::get('/auth0/callback', [IndexController::class, 'index'])->name('index');
+Route::get('/dashboard', [IndexController::class, 'dashboard'])->name('dashboard');
 Route::get('/yolov', [YolovController::class, 'yolov'])->name('yolov');
