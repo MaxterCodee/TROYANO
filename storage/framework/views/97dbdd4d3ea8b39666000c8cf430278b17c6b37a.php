@@ -1,6 +1,5 @@
     
     
-    <h1>Hola</h1>
 
     <?php $__env->startSection('content'); ?>
         <p>This is my body content.</p>
