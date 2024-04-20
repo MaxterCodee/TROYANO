@@ -16,7 +16,7 @@ Route::get('/scope', function () {
 
 Route::get('/', function () {
   if (! auth()->check()) {
-    return response('You are not logged in.');
+    return view('landding');
   }
 
   $user = auth()->user();

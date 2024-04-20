@@ -17,7 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
     
     <!-- PAGE TITLE HERE -->
-    <title>Admin Dashboard</title>
+    <title>DATA CITY</title>
     
     <!-- FAVICONS ICON -->
     <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.png') }}">
@@ -60,7 +60,7 @@
 					</defs>
 				</svg>
 				<div class="brand-title">
-					<h2 class="">Troyanos.</h2>
+					<h2 class="">DATA CITY</h2>
 				</div>
             </a>
             <div class="nav-control">

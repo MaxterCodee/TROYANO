@@ -4,11 +4,13 @@
     <div>
         <!-- Contenido específico de esta vista -->
 
-        <h1>Deteccion en tiempo real</h1>
-        <div style="display: flex; align-items: center;">
+        <center><h1>Deteccion en tiempo real</h1></center>
+        <div style="display: flex; align-items: center; margin-top: 2%;">
             <video id="video" width="640" height="480" autoplay style="display: none;"></video>
-            <canvas id="canvas" width="640" height="480"></canvas>
-            <div style="display: flex; flex-direction: column; margin-left: 20px;">
+            <div style="padding: 1%; background-color:white; border-radius:15px;">
+                <canvas id="canvas" width="640" height="480" style="border-radius: 15px"></canvas>
+            </div>
+            <div style="display: flex; flex-direction: column; margin-left: 20%; border-color:white; border:1px;">
                 <div style="  border-radius: 15px; padding: 5px; margin-bottom: 5px; display: flex; align-items: center;">
                     <div style="background-color: white; border-radius: 50%; padding: 5px; display: flex; align-items: center; margin:10px">
                         <img src="{{ asset('icons/coche.png') }}" width="75" style="margin: 10px;" alt="Carro">
