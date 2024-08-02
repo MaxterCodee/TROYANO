@@ -2,30 +2,29 @@
 
 @section('content')
     <div>
-        <!-- Contenido específico de esta vista -->
-
-        <center><h1>Deteccion en tiempo real</h1></center>
+        <center><h1>Detección en tiempo real</h1></center>
         <div style="display: flex; align-items: center; margin-top: 2%;">
-            <video id="video" width="640" height="480" autoplay style="display: none;"></video>
-            <div style="padding: 1%; background-color:white; border-radius:15px;">
-                <canvas id="canvas" width="640" height="480" style="border-radius: 15px"></canvas>
+            <div id="liveView" class="camView">
+                <button id="webcamButton">Iniciar cámara IP</button>
+                <img id="ipCameraFeed" width="640" height="480" style="display: none;">
+                <canvas id="canvas" width="640" height="480" style="border-radius: 15px;"></canvas>
             </div>
             <div style="display: flex; flex-direction: column; margin-left: 20%; border-color:white; border:1px;">
-                <div style="  border-radius: 15px; padding: 5px; margin-bottom: 5px; display: flex; align-items: center;">
+                <div style="border-radius: 15px; padding: 5px; margin-bottom: 5px; display: flex; align-items: center;">
                     <div style="background-color: white; border-radius: 50%; padding: 5px; display: flex; align-items: center; margin:10px">
                         <img src="{{ asset('icons/coche.png') }}" width="75" style="margin: 10px;" alt="Carro">
                     </div> 
                     <span style="margin-right: 10px;">Carros: </span>
                     <span id="counter_car">0</span>
                 </div>
-                <div style="  border-radius: 15px; padding: 5px; margin-bottom: 5px; display: flex; align-items: center;">
+                <div style="border-radius: 15px; padding: 5px; margin-bottom: 5px; display: flex; align-items: center;">
                     <div style="background-color: white; border-radius: 50%; padding: 5px; display: flex; align-items: center; margin:10px">
                         <img src="{{ asset('icons/bus.png') }}" width="75" style="margin: 10px;" alt="Bus">
                     </div>
                     <span style="margin-right: 10px;">Buses: </span>
                     <span id="counter_bus">0</span>
                 </div>
-                <div style="  border-radius: 15px; padding: 5px; display: flex; align-items: center;">
+                <div style="border-radius: 15px; padding: 5px; display: flex; align-items: center;">
                     <div style="background-color: white; border-radius: 50%; padding: 5px; display: flex; align-items: center; margin:10px">
                         <img src="{{ asset('icons/moto.png') }}" width="75" style="margin: 5px;" alt="Moto">
                     </div>
@@ -35,48 +34,55 @@
             </div>
         </div>
 
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
         <script>
-            const video = document.getElementById('video');
+            const ipCameraFeed = document.getElementById('ipCameraFeed');
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
+            const enableWebcamButton = document.getElementById('webcamButton');
+            let model = undefined;
             let registeredBoxes = [];
             let counter_car = 0;
             let counter_bus = 0;
             let counter_motorcycle = 0;
 
-            // Load the COCO-SSD model
-            cocoSsd.load().then(model => {
-                // Get access to the webcam stream
-                navigator.mediaDevices.getUserMedia({
-                        video: true
-                    })
-                    .then(stream => {
-                        video.srcObject = stream;
-                        video.onloadedmetadata = () => {
-                            video.play();
-                            detectObjects(model);
-                        };
-                    })
-                    .catch(err => {
-                        console.error('Error accessing the webcam:', err);
+            // URL de la cámara IP (reemplaza esto con la URL real de tu cámara IP)
+            const ipCameraUrl = 'http://192.168.100.20:8080/video';
+
+            enableWebcamButton.addEventListener('click', enableCam);
+
+            function enableCam(event) {
+                event.target.classList.add('removed');
+
+                ipCameraFeed.src = ipCameraUrl;
+                ipCameraFeed.style.display = 'block';
+                canvas.style.display = 'block';
+
+                ipCameraFeed.onload = function() {
+                    cocoSsd.load().then(function (loadedModel) {
+                        model = loadedModel;
+                        predictWebcam();
                     });
-            });
+                };
 
-            // Function to detect objects in real-time
-            async function detectObjects(model) {
-                // Continuously detect objects in each frame
-                while (true) {
-                    await new Promise(resolve => requestAnimationFrame(resolve)); // Wait for the next frame
+                ipCameraFeed.onerror = function() {
+                    console.error("No se pudo cargar el feed de la cámara IP. Verifica la URL.");
+                };
+            }
 
-                    // Draw the current frame on the canvas
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            function predictWebcam() {
+                if (!model) {
+                    console.error("El modelo no se ha cargado correctamente.");
+                    return;
+                }
 
-                    // Detect objects in the current frame
-                    const predictions = await model.detect(canvas);
-                    const carIconUrl = "{{ asset('icons/coche.png') }}";
-                    const motoIconUrl = '{{ asset('icons/moto.png') }}';
-                    const busIconUrl = '{{ asset('icons/bus.png') }}';
-                    // Display bounding boxes and labels for each detected object
+                ctx.drawImage(ipCameraFeed, 0, 0, canvas.width, canvas.height);
+
+                model.detect(canvas).then(function (predictions) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el canvas antes de dibujar
+                    ctx.drawImage(ipCameraFeed, 0, 0, canvas.width, canvas.height); // Dibujar la imagen de nuevo
+
                     predictions.forEach(prediction => {
                         const [x, y, width, height] = prediction.bbox;
                         let draw = false;
@@ -93,11 +99,10 @@
                             ctx.strokeStyle = 'red';
                             ctx.fillStyle = 'red';
                             ctx.stroke();
-                            ctx.fillText(`${prediction.class}: ${Math.round(prediction.score * 100)}%`, x, y > 10 ?
-                                y - 5 : 10);
+                            ctx.fillText(`${prediction.class}: ${Math.round(prediction.score * 100)}%`, x, y > 10 ? y - 5 : 10);
 
                             const isBoxRegistered = registeredBoxes.some(registeredBox =>
-                                calculateDistance(registeredBox, box) < 100 // Aquí definimos la distancia mínima entre cuadros
+                                calculateDistance(registeredBox, box) < 100
                             );
 
                             if (!isBoxRegistered) {
@@ -116,10 +121,13 @@
                             }
                         }
                     });
-                }
+
+                    requestAnimationFrame(predictWebcam);
+                }).catch(function(error) {
+                    console.error("Error durante la detección: ", error);
+                });
             }
 
-            // Función para calcular la distancia euclidiana entre dos cuadros delimitadores
             function calculateDistance(boxA, boxB) {
                 const centerX_A = boxA.x + boxA.width / 2;
                 const centerY_A = boxA.y + boxA.height / 2;
